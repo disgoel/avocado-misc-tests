@@ -534,8 +534,6 @@ class Xfstests(Test):
                 self.partition, mountpoint=self.disk_mnt)
             self.part.mount()
 
-        # remove any previous loosetup images
-        process.run('losetup -D')
         # Creating two loop devices
         for i in range(self.num_loops):
             self._create_fsimages(loop_size, i)
