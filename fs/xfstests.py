@@ -224,9 +224,7 @@ class Xfstests(Test):
         self.fs_to_test = self.params.get('fs', default='ext4')
         self.args = self.params.get('args', default='-g auto')
         self.skip_dangerous = self.params.get('skip_dangerous', default=True)
-
-
-        self.base_disk = self.params.get('disk', default=None)
+        self.partition = self.params.get('partition', default=None)
         self.scratch_mnt = self.params.get(
             'scratch_mnt', default='/mnt/scratch')
         self.test_mnt = self.params.get('test_mnt', default='/mnt/test')
@@ -343,7 +341,7 @@ class Xfstests(Test):
 
         if self.dev_type == 'loop':
             loop_size = self.params.get('loop_size', default='7GiB')
-            if not self.base_disk:
+            if not self.partition:
                 # Using root for file creation by default
                 check = (int(loop_size.split('GiB')[0]) * 2) + 1
                 if disk.freespace('/') / 1073741824 > check:
@@ -522,7 +520,7 @@ class Xfstests(Test):
     def _create_loop_device(self, loop_size, mount=True):
         if mount:
             self.part = partition.Partition(
-                self.base_disk, mountpoint=self.disk_mnt)
+                self.partition, mountpoint=self.disk_mnt)
             self.part.mount()
 
         # remove any previous loosetup images

@@ -5,7 +5,7 @@ disk_mnt: '/mnt/loop-device'
 loop_section:
     type: 'loop'
     loop_size: '7GiB'
-    disk: "null"
+    partition: "null"
 
 fs_type: !mux
     fs_ext2_64k:

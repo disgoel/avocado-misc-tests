@@ -12,7 +12,7 @@ loop_type: !mux
     loop_size: '7GiB'
     # Option to provide disk for loop device creation,
     # Uses '/' by default for file creation
-    disk: "null"
+    partition: "null"
 run_type: !mux
   upstream:
     # run_type can either be "upstream" or "distro". When using upstream
