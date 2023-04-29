@@ -458,17 +458,10 @@ class Xfstests(Test):
             self.fail("Test(s) failed %s" % msg)
 
     def tearDown(self):
-
         srcdir = f"{self.teststmpdir}/results"
-        outputpath = f"{self.outputdir}/results-{self.sectionname}"
+        outputpath = f"{self.outputdir}/results"
 
-        job_dir = os.path.dirname(os.path.dirname(self.logdir))
-        self.job_id = os.path.basename(job_dir)
-
-        self.log.debug(" Job ID: %s, logdir: %s, srcdir: %s, outputdir: %s, outputpath: %s" %
-                (self.job_id, self.logdir, srcdir, self.outputdir, outputpath))
-
-        if (os.path.exists(self.outputdir)):
+        if os.path.exists(srcdir):
             shutil.copytree(srcdir, outputpath)
         else:
             self.log.info("Unable to copy. Path not found %s -> %s " %
@@ -491,6 +484,8 @@ class Xfstests(Test):
             shutil.rmtree(self.scratch_mnt)
         if os.path.exists(self.test_mnt):
             shutil.rmtree(self.test_mnt)
+        if os.path.exists(self.disk_mnt):
+            shutil.rmtree(self.disk_mnt)
         if os.path.exists(self.teststmpdir + "/libini"):
             shutil.rmtree(self.teststmpdir + "/libini")
         if self.dev_type == 'loop':
