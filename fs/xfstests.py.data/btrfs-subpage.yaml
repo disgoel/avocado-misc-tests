@@ -5,8 +5,8 @@ disk_mnt: '/mnt/loop-device'
 fs_type: !mux
   fs_btrfs:
     fs: 'btrfs'
-    mkfs_opt: " -s 4096"
-    gen_exclude: true
+    args: '-R xunit -g auto'
+    mkfs_opt: "-f -s 4096 -n 4096"
 loop_type: !mux
     type: 'loop'
     loop_size: '5GiB'
