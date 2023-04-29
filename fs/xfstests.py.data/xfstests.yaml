@@ -2,7 +2,6 @@ skip_dangerous: True
 scratch_mnt: '/mnt/scratch'
 test_mnt: '/mnt/test'
 disk_mnt: '/mnt/loop-device'
-
 loop_type: !mux
     type: 'loop'
     loop_size: '5GiB'

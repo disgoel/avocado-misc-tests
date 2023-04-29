@@ -446,7 +446,10 @@ class Xfstests(Test):
     def test(self):
         failures = False
         os.chdir(self.teststmpdir)
-
+        cmd = './check %s' % self.args
+        result = process.run(cmd, ignore_status=True, verbose=True)
+        if result.exit_status == 0:
+            self.log.info("OK: All tests passed")
         else:
             msg = self._parse_error_message(result.stdout)
             failures = True
@@ -517,7 +520,7 @@ class Xfstests(Test):
         # Note there is an inherent assumption anyways that the filesize
         # is given in GiB
         if (os.path.isfile(fpath) and
-            os.path.getsize(fpath) == (dd_count * 1024 * 1024 * 1024)):
+                os.path.getsize(fpath) == (dd_count * 1024 * 1024 * 1024)):
             self.log.debug("%s already present, continue" % (fpath))
             return
 
