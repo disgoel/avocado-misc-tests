@@ -221,22 +221,8 @@ class Xfstests(Test):
             self.use_dd = True
 
         self.dev_type = self.params.get('type', default='loop')
-
-        self.__setUp_packages()
-
         self.fs_to_test = self.params.get('fs', default='ext4')
-
-        self.args = self.params.get('args', default='-i 2 generic/001')
-        self.log.debug(f"FS: {self.fs_to_test}, args: {self.args}")
-
-        self.sectionname = self.params.get('sectionname', default=self.fs_to_test)
-        if (self.sectionname == self.fs_to_test):
-            self.log.warn(f"No section name present. Results may get overridden for {self.fs_to_test}")
-
-        # If there is an existing results directory then just clean that up before running the test
-        if os.path.exists(f"{self.teststmpdir}/results"):
-            shutil.rmtree(f"{self.teststmpdir}/results")
-
+        self.args = self.params.get('args', default='-g auto')
         self.skip_dangerous = self.params.get('skip_dangerous', default=True)
 
 
