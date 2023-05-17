@@ -11,7 +11,6 @@ loop_type: !mux
 
 fs_type: !mux
     fs_ext4_4k_verity:
-        sectionname: 'ext4_4k_verity'
         fs: 'ext4'
         args: '-R xunit -g quick'
         mkfs_opt: '-b 4096 -O verity'
