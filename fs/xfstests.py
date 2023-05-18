@@ -227,9 +227,7 @@ class Xfstests(Test):
         self.__setUp_packages()
 
         self.fs_to_test = self.params.get('fs', default='ext4')
-
-        self.args = self.params.get('args', default='-i 2 generic/001')
-        self.log.debug(f"FS: {self.fs_to_test}, args: {self.args}")
+        self.args = self.params.get('args', default='-g auto')
 
         # If there is an existing results directory then just clean that up before running the test
         if os.path.exists(f"{self.teststmpdir}/results"):

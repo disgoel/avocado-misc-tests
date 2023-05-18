@@ -12,21 +12,21 @@ loop_type: !mux
 fs_type: !mux
     fs_ext4_4k:
         fs: 'ext4'
-        args: '-e ext4/048,generic/128 -R xunit generic/001'
+        args: '-e ext4/048 -R xunit -g auto'
         mkfs_opt: '-b 4096'
         mount_opt: '-o block_validity'
     fs_ext4_64k:
         fs: 'ext4'
-        args: '-e ext4/048,generic/128 -R xunit generic/001'
+        args: '-e ext4/048 -R xunit -g auto'
         mkfs_opt: '-b 65536'
         mount_opt: '-o block_validity'
     fs_xfs_4k:
         fs: 'xfs'
-        args: '-R xunit generic/001'
+        args: '-R xunit -g auto'
         mkfs_opt: '-f -b size=4096'
     fs_xfs_64k:
         fs: 'xfs'
-        args: '-R xunit generic/001'
+        args: '-R xunit -g auto'
         mkfs_opt: '-f -b size=65536'
         exclude: "null"
         gen_exclude: "null"
