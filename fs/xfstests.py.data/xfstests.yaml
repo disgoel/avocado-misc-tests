@@ -1,4 +1,3 @@
-skip_dangerous: True
 scratch_mnt: '/mnt/scratch'
 test_mnt: '/mnt/test'
 disk_mnt: '/mnt/loop-device'
@@ -28,6 +27,3 @@ fs_type: !mux
         fs: 'xfs'
         args: '-R xunit -g auto'
         mkfs_opt: '-f -b size=65536'
-        exclude: "null"
-        gen_exclude: "null"
-        share_exclude: "null"
