@@ -28,6 +28,7 @@ import shutil
 
 from avocado import Test
 from avocado.utils import process, build, git, distro, partition
+from avocado.utils import disk, pmem, linux_modules
 from avocado.utils import genio
 from avocado.utils.software_manager.manager import SoftwareManager
 
@@ -161,7 +162,7 @@ class Xfstests(Test):
                  'uuid-runtime', 'libaio-dev', 'fio', 'dbench',
                  'gettext', 'libinih-dev', 'liburcu-dev', 'libblkid-dev',
                  'liblzo2-dev', 'zlib1g-dev', 'e2fslibs-dev', 'asciidoc',
-                 'xmlto', 'libzstd-dev', 'libudev-dev'])
+                 'xmlto', 'libzstd-dev', 'libudev-dev', 'fsverity', 'libfsverity0'])
             if self.detected_distro.version in ['14']:
                 packages.extend(['libtool'])
             elif self.detected_distro.version in ['18', '20']:
@@ -248,9 +249,27 @@ class Xfstests(Test):
         self.devices = []
         self.part = None
 
+        if 'verity' in self.args:
+            cfg_param = "CONFIG_FS_VERITY"
+            ret = linux_modules.check_kernel_config(cfg_param)
+            if ret == linux_modules.ModuleConfig.NOT_SET:
+                self.cancel("%s not set." % cfg_param)
+            if (os.uname().release).split('.')[0] < '6':
+                self.cancel("kernel does not support fsverity feature")
+
         if self.run_type == 'upstream':
             prefix = "/usr/local"
             bin_prefix = "/usr/local/bin"
+
+            if 'verity' in self.args:
+                fsverity_dir = os.path.join(self.teststmpdir, 'fsverity-utils')
+                if not os.path.exists(fsverity_dir):
+                    os.makedirs(fsverity_dir)
+                fsverity_url = self.params.get('fsverity_url')
+                git.get_repo(fsverity_url, destination_dir=fsverity_dir)
+                os.chdir(fsverity_dir)
+                build.make(fsverity_dir)
+                build.make(fsverity_dir, extra_args='install')
 
             if self.detected_distro.name == 'SuSE':
                 # SuSE has /sbin at a higher priority than /usr/local/bin
