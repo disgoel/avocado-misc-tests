@@ -239,7 +239,7 @@ class Xfstests(Test):
         if (self.skip_dangerous or self.group or self.test_range):
             self.log.info("These options(skip_dangerous, group, test_range) are deprecated. Use \"args\" instead")
 
-        self.base_disk = self.params.get('disk', default=None)
+        self.disk_path = self.params.get('disk_path', default=None)
         self.scratch_mnt = self.params.get(
             'scratch_mnt', default='/mnt/scratch')
         self.test_mnt = self.params.get('test_mnt', default='/mnt/test')
@@ -348,7 +348,7 @@ class Xfstests(Test):
 
         if self.dev_type == 'loop':
             loop_size = self.params.get('loop_size', default='7GiB')
-            if not self.base_disk:
+            if not self.disk_path:
                 # Using root for file creation by default
                 check = (int(loop_size.split('GiB')[0]) * 2) + 1
                 if disk.freespace('/') / 1073741824 > check:
@@ -578,7 +578,7 @@ class Xfstests(Test):
     def _create_loop_device(self, loop_size, mount=True):
         if mount:
             self.part = partition.Partition(
-                self.base_disk, mountpoint=self.disk_mnt)
+                self.disk_path, mountpoint=self.disk_mnt)
             self.part.mount()
 
         # Creating two loop devices

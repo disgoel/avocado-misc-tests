@@ -7,7 +7,7 @@ loop_type: !mux
     loop_size: '7GiB'
     # Option to provide disk for loop device creation,
     # Uses '/' by default for file creation
-    disk: "null"
+    disk_path: "null"
 
 fs_type: !mux
     fs_xfs_1k:
